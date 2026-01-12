@@ -1,88 +1,88 @@
-# YOLOv8とROS2のサンプルプログラム
+# YOLOv8 and ROS2 Sample Program
 
-## 概要
+## Overview
 
-- YOLOv8とROS2による深層学習の物体検出プログラム
-- Ubuntu 22.04, ROS Humbleで作成・確認
+- Deep learning object detection program using YOLOv8 and ROS2
+- Created and verified on Ubuntu 22.04 and ROS Humble
 
-## インストール
+## Installation
 
-- [opencv_ros2](../opencv_ros2/README.md)のインストール作業
+- [opencv_ros2](../opencv_ros2/README.md) installation
 
-- YOLOv8ソフトウェアをインストール
-  ```
-  pip3 install ultralytics
-  pip3 uninstall -y opencv-python
-  ```
-  注：open-python は ultralytics とともに自動的にインストールされます．したがって，open-contrib-python との競合を避けるためにこれを削除する必要があります．
+- Installing the YOLOv8 software
+```
+pip3 install ultralytics
+pip3 uninstall -y opencv-python
+```
+Note: open-python is automatically installed with ultralytics. Therefore, you must remove it to avoid conflicts with open-contrib-python.
 
-## 実行
+## Execution
 
-5.7.2節：YOLOの物体検出
-- 端末1：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run yolov8_ros2 object_detection
-  ```
-- プログラムが正常に実行されると，新たなウィンドウが現れ，検出物体に色付きの枠が描きたされたカメラ画像が表示されます．
+Section 5.7.2: YOLO Object Detection
+- Device 1: Launch the USB camera usb_cam package
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 2: Run the program
+```
+ros2 run yolov8_ros2 object_detection
+```
+- If the program runs successfully, a new window will appear, displaying the camera image with a colored frame around the detected object.
 
-5.7.2節：検出物体の位置推定
-- 端末1：深度カメラIntel RealSense D415用のROSノードを起動
-  ```
-  ros2 launch realsense2_camera rs_launch.py align_depth.enable:=true
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run yolov8_ros2 object_detection_tf
-  ```
-- プログラムが正常に実行されると，新たなウィンドウが現れ，深度画像に対象物体のバウンディングボックスが表示
-- /tfトピックにはカメラ座標系における物体の3次元位置が出力
+Section 5.7.2: Estimating the Position of Detected Objects
+- Device 1: Launch the ROS node for the Intel RealSense D415 depth camera.
+```
+ros2 launch realsense2_camera rs_launch.py ​​align_depth.enable:=true
+```
+- Device 2: Run the program.
+```
+ros2 run yolov8_ros2 object_detection_tf
+```
+- If the program runs successfully, a new window will appear, displaying the bounding box of the target object in the depth image.
+- The /tf topic will output the 3D position of the object in the camera coordinate system.
 
-5.7.2節：物体検出のアクションサーバ
-- 端末1：深度カメラIntel RealSense D415用のROSノードを起動
-  ```
-  ros2 launch realsense2_camera rs_launch.py align_depth.enable:=true
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run yolov8_ros2 object_detection_action_server
-  ```
-- 端末3：ROSアクション通信を呼び出し（対象物体'cup'）
-  - 対象物体を探す
-    ```
-    ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: find cup}"
-    ```
-  - 対象物体を連続的に追跡
-    ```
-    ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: track cup}"
-    ```
-  - 物体検出の処理を停止
-    ```
-    ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: stop}"
-    ```
+Section 5.7.2: Action Server for Object Detection
+- Device 1: Launch the ROS node for the Intel RealSense D415 depth camera.
+```
+ros2 launch realsense2_camera rs_launch.py ​​align_depth.enable:=true
+```
+- Device 2: Run the program.
+```
+ros2 run yolov8_ros2 object_detection_action_server
+```
+- Terminal 3: Call ROS action communication (target object 'cup')
+- Search for the target object
+```
+ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: find cup}"
+```
+- Continuously track the target object
+```
+ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: track cup}"
+```
+- Stop object detection processing
+```
+ros2 action send_goal /vision/command airobot_interfaces/action/StringCommand "{command: stop}"
+```
 
-## ヘルプ
+## Help
 
-- このサンプルプログラムは，Ubuntu上でしか動作が確認できていません．Windowsで開発されている方は，VirtualBox、VMwareなどのバーチャルマシンにUbuntuをインストールしてサンプルプログラムを実行する事ができます．
+- This sample program has only been tested on Ubuntu. Windows developers can install Ubuntu on a virtual machine such as VirtualBox or VMware and run the sample program.
 
-## 著者
+## Author
 
-タン ジェフリー トゥ チュアン　TAN Jeffrey Too Chuan
+TAN Jeffrey Too Chuan
 
-## 履歴
+## History
 
-- 2024-10-10: Ubuntu 22.04, ROS Humbleにの更新
-- 2022-08-27: ライセンス・ドキュメントの整備
+- 2024-10-10: Updated to Ubuntu 22.04 and ROS Humble
+- 2022-08-27: License and documentation improvements
 
-## ライセンス
+## License
 
-Copyright (c) 2022-2025, TAN Jeffrey Too Chuan  
-All rights reserved.  
-This project is licensed under the Apache License 2.0 found in the LICENSE file in the root directory of this project.
+Copyright (c) 2022-2025, TAN Jeffrey Too Chuan
+All rights reserved.
+This project is licensed under the Apache License 2.0. See the LICENSE file in the root directory of this project.
 
-## 参考文献
+## References
 
 - https://github.com/ultralytics/ultralytics
