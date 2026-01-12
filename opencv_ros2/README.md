@@ -1,219 +1,219 @@
-# OpenCVとROS2のサンプルプログラム
+# OpenCV and ROS2 Sample Program
 
-## 概要
+## Overview
 
-- OpenCVとROS2によるロボットビジョンのアプリケーション
-- Ubuntu 22.04, ROS Humbleで作成・確認
+- Robot Vision Application Using OpenCV and ROS2
+- Created and Tested on Ubuntu 22.04 and ROS Humble
 
-## インストール
+## Installation
 
-- OpenCV関連のパッケージをインストール
-  ```
-  pip3 install opencv-contrib-python==4.5.5.64
-  ```
+- Install OpenCV-related packages
+```
+pip3 install opencv-contrib-python==4.5.5.64
+```
 
-- ROS2とOpenCVのインタフェースとなるパッケージをインストール
-  ```
-  sudo apt install ros-humble-vision-opencv
-  ```
+- Install the package that interfaces ROS2 and OpenCV
+```
+sudo apt install ros-humble-vision-opencv
+```
 
-- USBカメラ用ノードのパッケージをインストール
-  ```
-  sudo apt install ros-humble-usb-cam
-  ```
+- Install the USB camera node package
+```
+sudo apt install ros-humble-usb-cam
+```
 
-- Intel RealSense RGB-Dカメラ用のROSラッパをインストール
-  ```
-  sudo apt install ros-humble-realsense2-camera
-  ```
+- Install the ROS wrapper for the Intel RealSense RGB-D camera
+```
+sudo apt install ros-humble-realsense2-camera
+```
 
-- ROSのワークスペースを`~/airobot_ws`とする．
-  ```
-  cd ~/airobot_ws/src
-  ```
+- Set the ROS workspace to `~/airobot_ws`.
+```
+cd ~/airobot_ws/src
+```
 
-- JMU-ROBOTICS-VIVAのros2_arucoパッケージを入手
-  ```
-  git clone https://github.com/JMU-ROBOTICS-VIVA/ros2_aruco
-  ```
+- Obtain the ros2_aruco package from JMU-ROBOTICS-VIVA
+```
+git clone https://github.com/JMU-ROBOTICS-VIVA/ros2_aruco
+```
 
-- このパッケージを含むリポジトリを入手
-  ```
-  git clone https://github.com/AI-Robot-Book-Humble/chapter5
-  ```
+- Obtain the repository containing this package
+```
+git clone https://github.com/AI-Robot-Book-Humble/chapter5
+```
 
-- アクションのインタフェースを定義しているパッケージを含むリポジトリを入手
-  ```
-  git clone https://github.com/AI-Robot-Book-Humble/chapter2
-  ```
+- Obtain the repository containing the package defining the action interface
+```
+git clone https://github.com/AI-Robot-Book-Humble/chapter2
+```
 
-- パッケージをビルド
-  ```
-  cd ~/airobot_ws/
-  colcon build
-  ```
+- Build the package
+```
+cd ~/airobot_ws/
+colcon build
+```
 
-- オーバレイを設定
-  ```
-  source install/setup.bash
-  ```
+- Configure the overlay
+```
+source install/setup.bash
+```
 
-## 実行
+## Execution
 
-5.3.1節：OpenCVによる画像処理
-- プログラムを実行
-  ```
-  python3 ~/airobot_ws/src/chapter5/opencv_ros2/opencv_ros2/imgproc_opencv.py
-  ```
-- 結果を確認
+Section 5.3.1: Image Processing with OpenCV
+- Run the program
+```
+python3 ~/airobot_ws/src/chapter5/opencv_ros2/opencv_ros2/imgproc_opencv.py
+```
+- Check the results
 
-5.3.2節：ROSにおけるOpenCVの画像処理
-- 端末1：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run opencv_ros2 imgproc_opencv_ros
-  ```
-- 端末3：結果を確認
-  - RQtを実行
-    ```
-    rqt
-    ```
-  - RQtのメニューのPlugins→Visualization→Image Viewを2回選び，Image Viewプラグインで2つ追加
-  - プラグインのトピックを選択するメニューでそれぞれ/image_rawと/resultを選ぶ
-- 端末4：ノードやトピックの間のつながりを調べる
-  - rqt_graphを実行
-    ```
-    rqt_graph
-    ```
+Section 5.3.2: OpenCV Image Processing in ROS
+- Device 1: Launch the usb_cam package for the USB camera
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 2: Run the program
+```
+ros2 run opencv_ros2 imgproc_opencv_ros
+```
+- Device 3: Check the results
+- Run RQt
+```
+rqt
+```
+- Select Plugins → Visualization → Image View twice in the RQt menu to add two Image View plugins.
+- Select /image_raw and /result from the plugin topic selection menu, respectively.
+- Device 4: Examine the connections between nodes and topics.
+- Run rqt_graph
+```
+rqt_graph
+```
 
-5.3.3節：深度データのサブスクライブ
-- 端末1：深度カメラIntel RealSense D415用のROSノードを起動
-  ```
-  ros2 launch realsense2_camera rs_launch.py align_depth.enable:=true
-  ```
-- 端末2：トピックを確認
-  ```
-  ros2 topic list
-  ```
-- 端末3：カラー画像と深度画像を表示
-  - RQtを実行
-    ```
-    rqt
-    ```
-  - Image Viewプラグインでカラー画像と深度画像のトピックを表示
+Section 5.3.3: Subscribing to Depth Data
+- Device 1: Launch the ROS node for the Intel RealSense D415 depth camera
+```
+ros2 launch realsense2_camera rs_launch.py ​​align_depth.enable:=true
+```
+- Device 2: Check the topic
+```
+ros2 topic list
+```
+- Device 3: Display the color and depth images
+- Run RQt
+```
+rqt
+```
+- Display the color and depth image topics with the Image View plugin
 
-5.5.1節：Cannyエッジ検出
-- 端末1：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run opencv_ros2 canny_edge_detection
-  ```
-- 端末3：結果を確認
-  - RQtを実行
-    ```
-    rqt
-    ```
-  - Image Viewプラグインで結果のトピック/edges_resultを表示
+Section 5.5.1: Canny Edge Detection
+- Device 1: Launch the usb_cam package for the USB camera
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 2: Run the program
+```
+ros2 run opencv_ros2 canny_edge_detection
+```
+- Device 3: Check the results
+- Run RQt
+```
+rqt
+```
+- Display the resulting topic/edges_result in the Image View plugin
 
-5.5.2節：Haar特徴量ベースのカスケード分類器による顔検出
-- 端末1：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run opencv_ros2 face_detection
-  ```
-- 端末3：結果を確認
-  - RQtを実行
-    ```
-    rqt
-    ```
-  - Image Viewプラグインで結果のトピック/face_detection_resultを表示
+Section 5.5.2: Face detection using a Haar feature-based cascade classifier
+- Device 1: Launch the usb_cam package for the USB camera
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 2: Run the program
+```
+ros2 run opencv_ros2 face_detection
+```
+- Device 3: Check the results
+- Run RQt
+```
+rqt
+```
+- Display the resulting topic/face_detection_result in the Image View plugin
 
-5.6.1節：QRコードの検出
-- 端末1：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末2：プログラムを実行
-  ```
-  ros2 run opencv_ros2 qrcode_detector
-  ```
-- 端末3：結果の文字トピックを確認
-  ```
-  ros2 topic echo /qrcode_detector_data
-  ```
-- 端末4：結果の画像トピックを確認
-  - RQtを実行
-    ```
-    rqt
-    ```
-  - Image Viewプラグインで結果の画像トピック/qrcode_detector_resultを表示
+Section 5.6.1: QR code detection
+- Device 1: Launch the usb_cam package for the USB camera
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 2: Run the program
+```
+ros2 run opencv_ros2 qrcode_detector
+```
+- Device 3: Check the resulting character topic
+```
+ros2 topic echo /qrcode_detector_data
+```
+- Device 4: Check the resulting image topic
+- Run RQt
+```
+rqt
+```
+- Display the resulting image topic /qrcode_detector_result using the Image View plugin
 
-5.6.2節：ArUcoマーカによる位置・姿勢推定
-- 端末1：サンプルマーカ画像を生成
-  ```
-  ros2 run ros2_aruco aruco_generate_marker
-  ```
-- 端末2：USBカメラのusb_camパッケージを起動
-  ```
-  ros2 run usb_cam usb_cam_node_exe
-  ```
-- 端末3：プログラムを実行
-  ```
-  ros2 run opencv_ros2 aruco_node_tf
-  ```
-- 端末4：結果の/tfトピックを確認
-  ```
-  ros2 topic echo /tf
-  ```
-- 端末5：マーカとカメラ座標系の可視化
-  - RVizを実行
-    ```
-    rviz2
-    ```
-  - RVizのウィンドウに，Fixed Frameをdefault_camに変更し，AddをクリックしてTFを追加
+Section 5.6.2: Position and Orientation Estimation Using ArUco Markers
+- Device 1: Generate a sample marker image
+```
+ros2 run ros2_aruco aruco_generate_marker
+```
+- Device 2: Launch the USB camera usb_cam package
+```
+ros2 run usb_cam usb_cam_node_exe
+```
+- Device 3: Run the program
+```
+ros2 run opencv_ros2 aruco_node_tf
+```
+- Device 4: Check the resulting /tf topic
+```
+ros2 topic echo /tf
+```
+- Device 5: Visualize the marker and camera coordinate system
+- Run RViz
+```
+rviz2
+```
+- In the RViz window, change Fixed Frame to default_cam and click Add to add the TF.
 
-## ヘルプ
+## Help
 
-- このサンプルプログラムは，Ubuntu上でしか動作が確認できていません．Windowsで開発されている方は，VirtualBox、VMwareなどのバーチャルマシンにUbuntuをインストールしてサンプルプログラムを実行する事ができます．
+- This sample program has only been tested on Ubuntu. Windows developers can install Ubuntu on a virtual machine such as VirtualBox or VMware and run the sample program.
 
-- Pythonのopencv-pythonパッケージとopencv-contrib-pythonパッケージ両方ともインストールされた場合は，エラーが発生することを確認しています．
-  これを回避するために，以下のコマンドを実行してください．
-  ```
-  pip3 uninstall opencv-python
-  ```
+- We have confirmed that an error occurs if both the opencv-python and opencv-contrib-python Python packages are installed.
+To avoid this, run the following command:
+```
+pip3 uninstall opencv-python
+```
 
-- aruco_node_tfのサンプルプログラムを実行するの時に，画像中に座標軸が表示されません．または，tfトピックの内容を観察すると，translationは0,0,0，rotationは0,0,0,1のままです．
+- When running the aruco_node_tf sample program, coordinate axes are not displayed in the image. Also, when observing the contents of the tf topic, translation remains at 0,0,0 and rotation remains at 0,0,0,1.
 
-  対策：USBカメラのキャリブレーション結果ファイルが必要です．tfはキャリブレーション結果からのcamera_infoに基づいて計算されています．
-  ```
-  ˜/.ros/camera_info/default_cam.yaml
-  ```
+Solution: A USB camera calibration result file is required. tf is calculated based on the camera_info from the calibration results.
+```
+∼/.ros/camera_info/default_cam.yaml
+```
 
-## 著者
+## Author
 
-タン ジェフリー トゥ チュアン　TAN Jeffrey Too Chuan
+TAN Jeffrey Too Chuan
 
-## 履歴
+## History
 
-- 2024-10-10: Ubuntu 22.04, ROS Humbleにの更新
-- 2022-08-27: ライセンス・ドキュメントの整備
+- 2024-10-10: Updated to Ubuntu 22.04 and ROS Humble
+- 2022-08-27: License and documentation improvements
 
-## ライセンス
+## License
 
-Copyright (c) 2022-2025, TAN Jeffrey Too Chuan  
-All rights reserved.  
-This project is licensed under the Apache License 2.0 found in the LICENSE file in the root directory of this project.
+Copyright (c) 2022-2025, TAN Jeffrey Too Chuan
+All rights reserved.
+This project is licensed under the Apache License 2.0. See the LICENSE file in the root directory of this project.
 
-## 参考文献
+## References
 
 - https://opencv.org/
 - https://github.com/JMU-ROBOTICS-VIVA/ros2_aruco
