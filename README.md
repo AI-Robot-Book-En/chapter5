@@ -1,24 +1,24 @@
-# 第５章 ビジョン
+# Chapter 5: Robot Vision
 
-## 概要
+## Overview
 
-ROS 2とPythonで作って学ぶAIロボット入門 改訂第2版（出村・萩原・升谷・タン著，講談社）第５章のサンプルプログラムと補足情報などを掲載しています．
+This section contains sample programs and supplementary information from Chapter 5 of "Hands-on Introduction to AI Robots" by Demura, Hagiwara, Masutani, and Tan.
 
-## ディレクトリ構成
+## Directory Structure
 
-- [opencv_ros2](opencv_ros2)： OpenCVとROS2のサンプルプログラム
+- [opencv_ros2](opencv_ros2): Sample Programs for OpenCV and ROS2
 
-- [yolov8_ros2](yolov8_ros2)： YOLOv8とROS2のサンプルプログラム
+- [yolov8_ros2](yolov8_ros2): Sample Programs for YOLOv8 and ROS2
 
-## 補足情報
+## Supplementary Information
 
-- 実行するUbuntuの環境でカメラからの入力が出来ていることを事前に確認してください．
+- Please confirm that your Ubuntu environment supports camera input beforehand.
 
-- カメラを起動の時，下記のエラーが発生の場合
-  ```
-  Cannot open '/dev/video0': 13, Permission denied
-  ```
-  対策：
-  ```
-  sudo chmod 666 /dev/video0
-  ```
+- If the following error occurs when starting the camera:
+```
+Cannot open '/dev/video0': 13, Permission denied
+```
+Solution:
+```
+sudo chmod 666 /dev/video0
+```
